@@ -1,12 +1,10 @@
-import fs from 'fs';
-import path from 'path';
+import db from '../firebase-config';
 
-export default function handler(req, res) {
-  const reservasFilePath = path.join(process.cwd(), 'reservas.json');
-
+export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const data = fs.readFileSync(reservasFilePath, 'utf8');
-    res.status(200).json(JSON.parse(data));
+    const snapshot = await db.collection('reservas').get();
+    const reservas = snapshot.docs.map(doc => doc.data());
+    res.status(200).json(reservas);
   } else {
     res.status(405).json({ message: 'Método no permitido' });
   }

@@ -1,14 +1,9 @@
-import fs from 'fs';
-import path from 'path';
+import db from '../firebase-config';
 
-export default function handler(req, res) {
-  const reservasFilePath = path.join(process.cwd(), 'reservas.json');
-
+export default async function handler(req, res) {
   if (req.method === 'POST') {
     const nuevaReserva = req.body;
-    let reservas = JSON.parse(fs.readFileSync(reservasFilePath, 'utf8'));
-    reservas.push(nuevaReserva);
-    fs.writeFileSync(reservasFilePath, JSON.stringify(reservas, null, 2), 'utf8');
+    await db.collection('reservas').add(nuevaReserva);
     res.status(201).json({ message: 'Reserva realizada con éxito' });
   } else {
     res.status(405).json({ message: 'Método no permitido' });
