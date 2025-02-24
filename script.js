@@ -100,14 +100,14 @@ async function renderForm() {
       const horario = form.dataset.horarioSeleccionado;
 
       if (!horario) {
-        alert('Selecciona un horario.');
+        mostrarPopup('Selecciona un horario.');
         return;
       }
 
       const nuevaReserva = { dia, horario, nombre };
       reservas.push(nuevaReserva);
       await guardarReserva(nuevaReserva);
-      alert('Reserva realizada con éxito.');
+      mostrarPopup('Reserva realizada con éxito.');
       renderForm();
     };
 
@@ -147,6 +147,18 @@ function toggleDisplay(id) {
       form.classList.remove('active');
     }
   });
+}
+
+function mostrarPopup(mensaje) {
+  const overlay = document.getElementById('popup-overlay');
+  const message = document.getElementById('popup-message');
+  message.textContent = mensaje;
+  overlay.classList.add('active');
+}
+
+function cerrarPopup() {
+  const overlay = document.getElementById('popup-overlay');
+  overlay.classList.remove('active');
 }
 
 renderForm();
