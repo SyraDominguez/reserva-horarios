@@ -1,10 +1,24 @@
+let reservas = [];
+
+async function cargarReservas() {
+  const response = await fetch('/api/reservas');
+  const data = await response.json();
+  reservas = data;
+}
+
+async function guardarReserva(nuevaReserva) {
+  await fetch('/api/reservas', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(nuevaReserva),
+  });
+}
+
 const diasDisponibles = {
   'Jueves 27 de febrero': createTimeSlots(8, 12).concat(createTimeSlots(13, 16)),
   'Viernes 28 de febrero': createTimeSlots(8, 15),
-  'Lunes 3 de marzo': createTimeSlots(8, 16)
+  'Lunes 3 de marzo': createTimeSlots(8, 16),
 };
-
-const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
 
 function createTimeSlots(startHour, endHour) {
   const slots = [];
@@ -18,7 +32,8 @@ function createTimeSlots(startHour, endHour) {
   return slots;
 }
 
-function renderForm() {
+async function renderForm() {
+  await cargarReservas();
   const app = document.getElementById('app');
   app.innerHTML = '';
 
@@ -55,7 +70,7 @@ function renderForm() {
     form.appendChild(inputNombre);
     form.appendChild(submitButton);
 
-    form.onsubmit = function (event) {
+    form.onsubmit = async function (event) {
       event.preventDefault();
       const formData = new FormData(event.target);
       const dia = event.target.id;
@@ -67,8 +82,9 @@ function renderForm() {
         return;
       }
 
-      reservas.push({ dia, horario, nombre });
-      localStorage.setItem('reservas', JSON.stringify(reservas));
+      const nuevaReserva = { dia, horario, nombre };
+      reservas.push(nuevaReserva);
+      await guardarReserva(nuevaReserva);
       alert('Reserva realizada con éxito.');
       renderForm();
     };
