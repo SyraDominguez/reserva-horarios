@@ -1,4 +1,3 @@
-/* Estilos generales */
 body {
   background-color: rgb(15, 15, 15);
   color: white;
@@ -7,7 +6,6 @@ body {
   padding: 0;
 }
 
-/* Encabezado */
 header {
   background-color: rgb(23, 62, 122);
   padding: 20px;
@@ -20,20 +18,17 @@ header h2 {
 
 h1 {
   color: white;
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
 }
 
 h2 {
   color: rgb(23, 62, 122);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   text-align: center;
   margin-top: 20px;
 }
 
-/* Contenedores principales */
-.day-container,
-.reservas-container {
+.day-container {
   background-color: rgb(28, 5, 84);
   margin: 20px auto;
   padding: 15px;
@@ -49,34 +44,23 @@ h2 {
   width: 100%;
 }
 
-/* Botón de PDF */
-.download-pdf-button {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background-color: rgb(28, 5, 84);
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+input,
+button {
+  border-radius: 5px;
+  border: 1px solid rgb(23, 62, 122);
+}
+
+.input-container {
+  margin-top: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 45px;
-  height: 45px;
 }
 
-.download-pdf-button:hover {
-  background-color: rgb(23, 62, 122);
-}
-
-/* Botones de los horarios */
 .time-slot {
   background-color: rgb(23, 62, 122);
   color: white;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
   border: none;
   transition: background-color 0.3s, box-shadow 0.3s;
@@ -101,32 +85,30 @@ h2 {
   border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
-/* Inputs */
 .input-nombre {
   margin: 10px 0;
   padding: 8px;
   width: 100%;
   max-width: 500px;
+  /* Aumentado para ser más alargado */
   border-radius: 5px;
   border: 1px solid rgb(23, 62, 122);
 }
 
 .submit-button {
-  padding: 12px 20px;
+  padding: 10px 20px;
   background-color: rgb(28, 5, 84);
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
   margin-top: 15px;
-  width: 100%;
-  max-width: 200px;
+  /* Más separación hacia abajo */
 }
 
 .submit-button:hover {
   background-color: rgb(23, 62, 122);
 }
 
-/* Contenedor de reservas */
 .reservas-container {
   background-color: rgb(23, 62, 122);
   margin: 20px auto;
@@ -145,7 +127,18 @@ h2 {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Pop-up */
+.calendar {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.calendar.active {
+  max-height: 1000px;
+  /* Espacio suficiente para mostrar el contenido */
+  overflow: visible;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -191,7 +184,7 @@ h2 {
   background-color: rgb(23, 62, 122);
 }
 
-/* Ajustes de lista */
+
 ul {
   padding: 0;
   list-style: none;
@@ -215,54 +208,12 @@ li {
   margin-bottom: 10px;
 }
 
-/* RESPONSIVE - ESTILOS PARA MÓVILES */
-@media (max-width: 430px) {
-  /* iPhone 14 y dispositivos similares */
+.reservas-dia-container ul {
+  list-style-type: none;
+  padding-left: 0;
+}
 
-  h1 {
-    font-size: 1.8rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  .day-container,
-  .reservas-container {
-    width: 90%;
-    margin: 15px auto;
-    padding: 12px;
-  }
-
-  .tramos-container {
-    grid-template-columns: repeat(2, 1fr);
-    /* Ajusta los slots en 2 columnas */
-    gap: 8px;
-  }
-
-  .time-slot {
-    font-size: 0.9rem;
-    padding: 6px;
-  }
-
-  .submit-button {
-    font-size: 1rem;
-    padding: 10px;
-    width: 100%;
-  }
-
-  .download-pdf-button {
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-  }
-
-  .popup {
-    width: 90%;
-    max-width: 350px;
-  }
-
-  .popup button {
-    width: 100%;
-  }
+.reservas-dia-container li {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
