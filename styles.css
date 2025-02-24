@@ -190,3 +190,26 @@ li {
   padding: 5px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+.reservas-dia-container {
+  background-color: white;
+  color: black;
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.reservas-dia-container h3 {
+  color: rgb(23, 62, 122);
+  margin-bottom: 10px;
+}
+
+.reservas-dia-container ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.reservas-dia-container li {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

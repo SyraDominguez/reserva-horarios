@@ -131,12 +131,41 @@ function elegirHorario(dia, horario) {
 function renderReservas() {
   const list = document.getElementById('reservas-list');
   list.innerHTML = '';
+
+  const reservasPorDia = {};
   reservas.forEach(reserva => {
-    const li = document.createElement('li');
-    li.textContent = `${reserva.dia} ${reserva.horario}: ${reserva.nombre}`;
-    list.appendChild(li);
+    if (!reservasPorDia[reserva.dia]) {
+      reservasPorDia[reserva.dia] = [];
+    }
+    reservasPorDia[reserva.dia].push(reserva);
+  });
+
+  // Ordenar los días en base al orden de diasDisponibles
+  Object.keys(diasDisponibles).forEach(dia => {
+    if (reservasPorDia[dia]) {
+      const reservasDia = reservasPorDia[dia];
+      reservasDia.sort((a, b) => a.horario.localeCompare(b.horario));
+
+      const diaContainer = document.createElement('div');
+      diaContainer.className = 'reservas-dia-container';
+
+      const diaTitle = document.createElement('h3');
+      diaTitle.textContent = dia;
+      diaContainer.appendChild(diaTitle);
+
+      const ul = document.createElement('ul');
+      reservasDia.forEach(reserva => {
+        const li = document.createElement('li');
+        li.textContent = `${reserva.horario}: ${reserva.nombre}`;
+        ul.appendChild(li);
+      });
+
+      diaContainer.appendChild(ul);
+      list.appendChild(diaContainer);
+    }
   });
 }
+
 
 function toggleDisplay(id) {
   const allForms = document.querySelectorAll('.calendar');
