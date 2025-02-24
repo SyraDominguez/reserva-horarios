@@ -104,6 +104,18 @@ button {
   color: white;
 }
 
+.calendar {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.calendar.active {
+  max-height: 1000px;
+  /* Espacio suficiente para mostrar el contenido */
+  overflow: visible;
+}
+
 ul {
   padding: 0;
   list-style: none;

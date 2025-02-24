@@ -40,11 +40,18 @@ async function renderForm() {
   for (const [dia, tramos] of Object.entries(diasDisponibles)) {
     const container = document.createElement('div');
     container.className = 'day-container';
-    container.innerHTML = `<h2>${dia}</h2>`;
+
+    const title = document.createElement('h2');
+    title.textContent = dia;
+    title.onclick = () => toggleDisplay(dia);
+    container.appendChild(title);
 
     const form = document.createElement('form');
-    form.className = 'calendar';
+    form.className = 'calendar hidden';
     form.id = dia;
+
+    const tramosContainer = document.createElement('div');
+    tramosContainer.className = 'tramos-container';
 
     tramos.forEach(({ start, end }) => {
       const reservaExistente = reservas.find(res => res.dia === dia && res.horario === start);
@@ -61,13 +68,18 @@ async function renderForm() {
         button.onclick = () => elegirHorario(dia, start);
       }
 
-      form.appendChild(button);
+      tramosContainer.appendChild(button);
     });
+
+    form.appendChild(tramosContainer);
+
+    const inputContainer = document.createElement('div');
+    inputContainer.className = 'input-container';
 
     const inputNombre = document.createElement('input');
     inputNombre.type = 'text';
     inputNombre.name = 'nombre';
-    inputNombre.placeholder = 'Nombre';
+    inputNombre.placeholder = 'Nombre y Apellido';
     inputNombre.required = true;
     inputNombre.className = 'input-nombre';
 
@@ -76,8 +88,10 @@ async function renderForm() {
     submitButton.textContent = 'Confirmar Reserva';
     submitButton.className = 'submit-button';
 
-    form.appendChild(inputNombre);
-    form.appendChild(submitButton);
+    inputContainer.appendChild(inputNombre);
+    inputContainer.appendChild(submitButton);
+
+    form.appendChild(inputContainer);
 
     form.onsubmit = async function (event) {
       event.preventDefault();
@@ -125,17 +139,14 @@ function renderReservas() {
 }
 
 function toggleDisplay(id) {
-  const element = document.getElementById(id);
-  if (element.className === 'hidden') {
-    element.className = '';
-  } else {
-    element.className = 'hidden';
-  }
+  const allForms = document.querySelectorAll('.calendar');
+  allForms.forEach(form => {
+    if (form.id === id) {
+      form.classList.toggle('active');
+    } else {
+      form.classList.remove('active');
+    }
+  });
 }
 
 renderForm();
-
-/* CSS */
-const style = document.createElement('style');
-style.innerHTML = `...`;
-document.head.appendChild(style);
