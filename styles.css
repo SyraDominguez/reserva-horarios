@@ -1,32 +1,65 @@
-.hidden {
-  display: none;
+body {
+  background-color: rgb(28, 5, 84);
+  color: white;
+  font-family: Arial, sans-serif;
 }
 
-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #007BFF;
+.day-container {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid rgb(23, 62, 122);
+  border-radius: 10px;
+  background-color: rgb(23, 62, 122);
+  color: white;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.time-slot {
+  padding: 10px;
+  border: none;
+  background-color: white;
+  color: rgb(28, 5, 84);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.time-slot:hover {
+  transform: scale(1.05);
+  background-color: rgb(23, 62, 122);
+  color: white;
+}
+
+.selected {
+  background-color: rgb(28, 5, 84);
+  color: white;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.input-nombre {
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid rgb(23, 62, 122);
+}
+
+.submit-button {
+  padding: 10px 15px;
+  background-color: rgb(28, 5, 84);
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-p {
-  font-family: Arial, sans-serif;
-  padding: 5px;
-}
-
-input[type="text"] {
-  padding: 5px;
-  margin: 5px;
-}
-
-form {
-  margin-bottom: 15px;
-}
-
-h2 {
-  cursor: pointer;
-  color: #333;
-  font-family: Arial, sans-serif;
+.submit-button:hover {
+  background-color: rgb(23, 62, 122);
 }

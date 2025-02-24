@@ -39,22 +39,29 @@ async function renderForm() {
 
   for (const [dia, tramos] of Object.entries(diasDisponibles)) {
     const container = document.createElement('div');
-    container.innerHTML = `<h2 onclick="toggleDisplay('${dia}')">${dia}</h2>`;
+    container.className = 'day-container';
+    container.innerHTML = `<h2>${dia}</h2>`;
 
     const form = document.createElement('form');
-    form.className = 'hidden';
+    form.className = 'calendar';
     form.id = dia;
 
     tramos.forEach(({ start, end }) => {
       const reservaExistente = reservas.find(res => res.dia === dia && res.horario === start);
-      const p = document.createElement('p');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'time-slot';
+      button.dataset.horario = start;
 
       if (reservaExistente) {
-        p.innerHTML = `${start} - ${end}: Reservado por ${reservaExistente.nombre}`;
+        button.textContent = `${start} - ${end}: Reservado`;
+        button.disabled = true;
       } else {
-        p.innerHTML = `<input type="radio" name="horario" value="${start}">${start} - ${end}`;
+        button.textContent = `${start} - ${end}`;
+        button.onclick = () => elegirHorario(dia, start);
       }
-      form.appendChild(p);
+
+      form.appendChild(button);
     });
 
     const inputNombre = document.createElement('input');
@@ -62,10 +69,12 @@ async function renderForm() {
     inputNombre.name = 'nombre';
     inputNombre.placeholder = 'Nombre';
     inputNombre.required = true;
+    inputNombre.className = 'input-nombre';
 
     const submitButton = document.createElement('button');
     submitButton.type = 'submit';
-    submitButton.textContent = 'Reservar';
+    submitButton.textContent = 'Confirmar Reserva';
+    submitButton.className = 'submit-button';
 
     form.appendChild(inputNombre);
     form.appendChild(submitButton);
@@ -73,9 +82,8 @@ async function renderForm() {
     form.onsubmit = async function (event) {
       event.preventDefault();
       const formData = new FormData(event.target);
-      const dia = event.target.id;
-      const horario = formData.get('horario');
       const nombre = formData.get('nombre');
+      const horario = form.dataset.horarioSeleccionado;
 
       if (!horario) {
         alert('Selecciona un horario.');
@@ -93,6 +101,17 @@ async function renderForm() {
     app.appendChild(container);
   }
   renderReservas();
+}
+
+function elegirHorario(dia, horario) {
+  const forms = document.querySelectorAll('form');
+  forms.forEach(form => form.dataset.horarioSeleccionado = '');
+  const form = document.getElementById(dia);
+  form.dataset.horarioSeleccionado = horario;
+  const botones = form.querySelectorAll('.time-slot');
+  botones.forEach(btn => btn.classList.remove('selected'));
+  const botonSeleccionado = form.querySelector(`button[data-horario="${horario}"]`);
+  botonSeleccionado.classList.add('selected');
 }
 
 function renderReservas() {
@@ -115,3 +134,8 @@ function toggleDisplay(id) {
 }
 
 renderForm();
+
+/* CSS */
+const style = document.createElement('style');
+style.innerHTML = `...`;
+document.head.appendChild(style);
