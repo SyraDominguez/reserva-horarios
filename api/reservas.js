@@ -10,6 +10,7 @@ export default async function handler(req, res) {
       res.status(405).json({ message: 'Método no permitido' });
     }
   } catch (error) {
+    console.error('Error en /api/reservas:', error);
     res.status(500).json({ message: 'Error al obtener reservas', error: error.message });
   }
 }
