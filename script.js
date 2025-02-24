@@ -3,11 +3,12 @@ let reservas = [];
 async function cargarReservas() {
   const response = await fetch('/api/reservas');
   const data = await response.json();
-  reservas = data;
+  console.log('Reservas obtenidas:', data);
+  reservas = Array.isArray(data) ? data : [];
 }
 
 async function guardarReserva(nuevaReserva) {
-  await fetch('/api/reservas', {
+  await fetch('/api/saveReserva', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(nuevaReserva),
@@ -54,7 +55,7 @@ async function renderForm() {
     tramosContainer.className = 'tramos-container';
 
     tramos.forEach(({ start, end }) => {
-      const reservaExistente = reservas.find(res => res.dia === dia && res.horario === start);
+      const reservaExistente = Array.isArray(reservas) ? reservas.find(res => res.dia === dia && res.horario === start) : null;
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'time-slot';
@@ -140,7 +141,6 @@ function renderReservas() {
     reservasPorDia[reserva.dia].push(reserva);
   });
 
-  // Ordenar los días en base al orden de diasDisponibles
   Object.keys(diasDisponibles).forEach(dia => {
     if (reservasPorDia[dia]) {
       const reservasDia = reservasPorDia[dia];
@@ -165,7 +165,6 @@ function renderReservas() {
     }
   });
 }
-
 
 function toggleDisplay(id) {
   const allForms = document.querySelectorAll('.calendar');
